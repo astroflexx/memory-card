@@ -112,8 +112,9 @@ function App() {
           padding: "1rem",
         }}>
           <h1 style={{ paddingBottom: "0.5rem" }}>Memory Game</h1>
+          <p style={{ paddingBottom: "0.5rem" }}>Get points by clicking on an image but don't click on any more than once!</p>
           <p>
-            Don&apos;t Cheat! Walter White is watching :)
+            Don't Cheat! Walter White is watching :)
           </p>
         </div>
         <section

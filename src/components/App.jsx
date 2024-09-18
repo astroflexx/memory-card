@@ -17,14 +17,14 @@ function shuffleImages(images) {
   return newImages;
 }
 
+let maxScore = 0;
+
 function App() {
   const [score, setScore] = useState(0);
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  let maxScore = 0;
 
   // when the comp mounts, fetch the 12 images and store them
 
@@ -47,8 +47,6 @@ function App() {
         }));
 
         setImages(imagesData);
-
-        console.log(imagesData);
       } catch (error) {
         setError(error);
       } finally {
@@ -59,17 +57,11 @@ function App() {
     fetchImages();
   }, []);
 
-  // when the score changes, update maxScore
-
-  maxScore = Math.max(maxScore, score);
-
   // event handler to pass to the cards
 
   function handleClick(e) {
     const id = e.target.id;
     let gameOver = images.some((img) => img.id === id && img.clicked);
-
-    console.log(id, gameOver);
 
     if (gameOver) {
       setImages((previousImages) =>
@@ -86,6 +78,7 @@ function App() {
         return shuffleImages(newImages);
       });
 
+      maxScore = Math.max(maxScore, score + 1);
       setScore(score + 1);
     }
   }
@@ -107,15 +100,19 @@ function App() {
           flexDirection: "row",
         }}
       >
-        <div className="container" style={{
-          flexGrow: "1",
-          padding: "1rem",
-        }}>
+        <div
+          className="container"
+          style={{
+            flexGrow: "1",
+            padding: "1rem",
+          }}
+        >
           <h1 style={{ paddingBottom: "0.5rem" }}>Memory Game</h1>
-          <p style={{ paddingBottom: "0.5rem" }}>Get points by clicking on an image but don't click on any more than once!</p>
-          <p>
-            Don't Cheat! Walter White is watching :)
+          <p style={{ paddingBottom: "0.5rem" }}>
+            Get points by clicking on an image but don't click on any more than
+            once!
           </p>
+          <p>Don't Cheat! Walter White is watching :)</p>
         </div>
         <section
           style={{
@@ -123,7 +120,7 @@ function App() {
           }}
         >
           <CurrentScore score={score} />
-          <BestScore score={maxScore} />
+          <BestScore bestScore={maxScore} />
         </section>
       </div>
 
